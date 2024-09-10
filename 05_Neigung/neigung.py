@@ -3,6 +3,7 @@ import board
 import busio
 import math
 from adafruit_lsm6ds.lsm6ds3 import LSM6DS3
+import nerdy
 
 # Erstellen Sie eine I2C-Instanz
 i2c = busio.I2C(scl=board.GP7, sda=board.GP6)  # SCL an GP7, SDA an GP6
@@ -29,5 +30,8 @@ while True:
 
     print(f"Winkel: X: {angle_x:.2f}°, Y: {angle_y:.2f}°, Z: {angle_z:.2f}°")
 
+    print(nerdy.neigung_roh())
+    print(nerdy.neigung_winkel())
+    
     # Eine kurze Pause zwischen den Messungen
     time.sleep(1)

@@ -13,6 +13,7 @@ i2c = busio.I2C(scl=board.GP7, sda=board.GP6)  # SCL an GP7, SDA an GP6
 sensor = LSM6DS3(i2c)
 
 
+MAX_SPANNUNG = 3.3
 
 # Farbkonstanten definieren
 ROT = (255, 0, 0)
@@ -50,7 +51,7 @@ def wheel(pos):
     pos -= 170
     return (pos * 3, 0, 255 - pos * 3)
 
-def rainbow_cycle(anz_pixel, pause):
+def regenbogen(anz_pixel = num_pixels, pause = 0.01):
     for j in range(255):
         for i in range(anz_pixel):
             pixel_index = (i * 256 // num_pixels) + j
@@ -73,3 +74,4 @@ def neigung_winkel():
     angle_y = math.atan2(accel_x, accel_z) * 180 / math.pi
     angle_z = math.atan2(accel_x, accel_y) * 180 / math.pi
     return angle_x, angle_y, angle_z
+
