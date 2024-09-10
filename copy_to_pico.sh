@@ -7,7 +7,7 @@ PICO_PATH="/Volumes/CIRCUITPY"
 TARGET_DIR="."
 
 # Kopieren Sie alle Dateien vom Pico in das aktuelle Verzeichnis
-rsync -av --progress "$TARGET_DIR/" "$PICO_PATH/" 
+rsync -av --progress --exclude ".*" --exclude '*.mpy' --exclude '*.sh' --exclude '_*'  "$TARGET_DIR/" "$PICO_PATH/" 
 
 echo "Alle Dateien wurden erfolgreich vom Pico in das aktuelle Verzeichnis kopiert."
 
