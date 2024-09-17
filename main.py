@@ -50,11 +50,13 @@ def check_touch():
             nerdy.pixels[i] = (0, 0, 0)  # Aus, wenn nicht berührt
     nerdy.pixels.show()
 
+play_tone(523,0.5)
+play_tone(659,0.5)
+
 
 while True:
 # Beispiel: Roter Chase-Effekt mit einer Wartezeit von 0.1 Sekunden
-    play_tone(523,0.5)
-    play_tone(659,0.5)
+
     chase_effect()
     nerdy.regenbogen()
     chase_effect(nerdy.BLAU,0.2)
