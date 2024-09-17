@@ -1,7 +1,11 @@
 #!/bin/bash
 
-# Pfad zum Pico (angepasst an Ihr System)
-PICO_PATH="/Volumes/CIRCUITPY"
+# Überprüfen, ob /Volumes/CIRCUITPY vorhanden ist, andernfalls /run/media/KingBBQ/CIRCUITPY verwenden
+if [ -d "/Volumes/CIRCUITPY" ]; then
+	PICO_PATH="/Volumes/CIRCUITPY"
+else
+	PICO_PATH="/run/media/KingBBQ/CIRCUITPY"
+fi
 
 # Zielverzeichnis (aktuelles Verzeichnis)
 TARGET_DIR="."
