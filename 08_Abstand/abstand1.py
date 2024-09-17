@@ -1,15 +1,15 @@
 import time
 import board
 
-import grove_ultrasonic_ranger
+import adafruit_hcsr04
 
-sonar = grove_ultrasonic_ranger.GroveUltrasonicRanger(sig_pin=board.GP9)
+sonar = adafruit_hcsr04.HCSR04(trigger_pin=board.GP21, echo_pin=board.GP22)
 
 
 while True:
     try:
         print((sonar.distance,))
-    except RuntimeError as e:
-        print("Retrying due to exception =", e)
+    except RuntimeError:
+        print("Retrying!")
         pass
     time.sleep(0.1)

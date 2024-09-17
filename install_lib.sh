@@ -9,5 +9,4 @@ then
     pip install setuptools
     pip install circup
 fi
-circup install neopixel adafruit_lsm6ds adafruit_register adafruit_hid adafruit_motor
- 
+circup install neopixel adafruit_lsm6ds adafruit_register adafruit_hid adafruit_motor adafruit_hcsr04
