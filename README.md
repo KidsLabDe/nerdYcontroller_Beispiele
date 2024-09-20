@@ -5,7 +5,7 @@ Hier ist die Dokumentation aller Funktionen der `GameController`-Bibliothek mit 
 
 Die Komplette Anleitung mit Beispielen etc. findest du hier:
 
-[Gamecontroller_Bausatz_Quickstart.pdf](Anleitung)
+[Anleitung](Gamecontroller_Bausatz_Quickstart.pdf)
 
 # GameController Bibliothek
 
