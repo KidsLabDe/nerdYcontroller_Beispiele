@@ -12,9 +12,9 @@ i2c = busio.I2C(scl=board.GP7, sda=board.GP6)  # SCL an GP7, SDA an GP6
 sensor = LSM6DS3(i2c)
 
 # Initialisieren Sie die Neopixel-LEDs
-pixel_pin = board.GP12  # Pin für die Neopixel
+pinLED = board.GP12  # Pin für die Neopixel
 num_pixels = 8  # Anzahl der LEDs
-pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.3, auto_write=False)
+pixels = neopixel.NeoPixel(pinLED, num_pixels, brightness=0.3, auto_write=False)
 
 def angle_to_color(angle):
     """Konvertiert einen Winkel in eine Farbe."""

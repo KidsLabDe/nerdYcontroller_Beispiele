@@ -3,74 +3,55 @@ import board
 import busio
 import math
 import neopixel
-from adafruit_lsm6ds.lsm6ds3 import LSM6DS3
+import GameController
 
-# Erstellen Sie eine I2C-Instanz
-i2c = busio.I2C(scl=board.GP7, sda=board.GP6)  # SCL an GP7, SDA an GP6
-
-# Initialisieren Sie den Sensor
-sensor = LSM6DS3(i2c)
-
-# Initialisieren Sie die Neopixel-LEDs
-pixel_pin = board.GP12  # Pin für die Neopixel
-num_pixels = 8  # Anzahl der LEDs
-pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.3, auto_write=False)
-
-def angle_to_color(angle):
-    """Konvertiert einen Winkel in eine Farbe."""
-    # Normiere den Winkel auf den Bereich 0-360
-    angle = angle % 360
-    # Konvertiere den Winkel in eine RGB-Farbe
-    if angle < 120:
-        return (int(255 * (120 - angle) / 120), int(255 * angle / 120), 0)
-    elif angle < 240:
-        angle -= 120
-        return (0, int(255 * (120 - angle) / 120), int(255 * angle / 120))
+def drehung_zu_farbe(winkel):
+    """Konvertiert die Drehung in eine Farbe."""
+    if winkel < 0.1:
+        return GameController.GRÜN
+    if winkel < 0.4:
+        return GameController.GELB
     else:
-        angle -= 240
-        return (int(255 * angle / 120), 0, int(255 * (120 - angle) / 120))
-
-def is_movement_strong(gyro_x, gyro_y, gyro_z, threshold=1):
-    """Überprüft, ob die Bewegung stark ist."""
-    magnitude = math.sqrt(gyro_x**2 + gyro_y**2 + gyro_z**2)
-    print(magnitude)
-    return magnitude > threshold
-
+        return GameController.ROT
+ 
 while True:
     # Beschleunigungsdaten lesen (x, y, z Achsen in m/s^2)
-    accel_x, accel_y, accel_z = sensor.acceleration
-    temp = sensor.temperature
-    print(f"Beschleunigung: X: {accel_x:.2f} m/s^2, Y: {accel_y:.2f} m/s^2, Z: {accel_z:.2f} m/s^2")
+    beschl_x, beschl_y, beschl_z = GameController.neigung_roh()
+    
+    print(f"Beschleunigung: X: {beschl_x:.2f} m/s^2, Y: {beschl_y:.2f} m/s^2, Z: {beschl_z:.2f} m/s^2")
 
     # Gyroskopdaten lesen (x, y, z Achsen in Grad pro Sekunde)
-    gyro_x, gyro_y, gyro_z = sensor.gyro
-    print(f"Gyroskop: X: {gyro_x:.2f} dps, Y: {gyro_y:.2f} dps, Z: {gyro_z:.2f} dps")
-    
+    drehung_x, drehung_y, drehung_z = GameController.drehung()
+    print(f"Gyroskop: X: {drehung_x:.2f} dps, Y: {drehung_y:.2f} dps, Z: {drehung_z:.2f} dps")
+
+    temp = GameController.temperatur()
     print(f"Temperatur: {temp:.2f} Grad Celsius")
 
     # Winkelberechnung
-    angle_x = math.atan2(accel_y, accel_z) * 180 / math.pi
-    angle_y = math.atan2(accel_x, accel_z) * 180 / math.pi
-    angle_z = math.atan2(accel_x, accel_y) * 180 / math.pi
+    winkel_x, winkel_y, winkel_z = GameController.neigung()
 
-    print(f"Winkel: X: {angle_x:.2f}°, Y: {angle_y:.2f}°, Z: {angle_z:.2f}°")
+
+    print(f"Winkel: X: {winkel_x:.2f}°, Y: {winkel_y:.2f}°, Z: {winkel_z:.2f}°")
 
     # Überprüfen, ob die Bewegung stark ist
-    if is_movement_strong(gyro_x, gyro_y, gyro_z):
+    if GameController.ist_bewegung_stark():
         # Setze alle LEDs auf rot
-        pixels.fill((255, 0, 0))
+        for i in range(0,4):
+            GameController.setzeAlleFarbe(GameController.ROT)
+            time.sleep(0.2)
+            GameController.setzeAlleAus()
+            time.sleep(0.2)
     else:
         # Farbe basierend auf den Winkeln berechnen
-        color_x = angle_to_color(angle_x)
-        color_y = angle_to_color(angle_y)
-        color_z = angle_to_color(angle_z)
+        color_x = drehung_zu_farbe(drehung_x)
+        color_y = drehung_zu_farbe(drehung_y)
+        color_z = drehung_zu_farbe(drehung_z)
 
         # LEDs entsprechend der berechneten Farben setzen
-        pixels[0] = color_x
-        pixels[1] = color_y
-        pixels[2] = color_z
+        GameController.setzeLEDFarbe(0,color_x)
+        GameController.setzeLEDFarbe(1,color_y)
+        GameController.setzeLEDFarbe(2,color_z)
 
-    pixels.show()
 
     # Eine kurze Pause zwischen den Messungen
     time.sleep(1)

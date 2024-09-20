@@ -1,9 +1,8 @@
 import time
 import board
 import pwmio
+import GameController
 
-# Initialisieren Sie den PWM-Ausgang für den Lautsprecher
-speaker = pwmio.PWMOut(board.GP20, duty_cycle=0, frequency=440, variable_frequency=True)
 
 # Notenfrequenzen in Hertz
 C4 = 262
@@ -15,15 +14,16 @@ A4 = 440
 B4 = 494
 C5 = 523
 
-def play_tone(frequency, duration):
+def spiele_ton(frequenz, laenge):
     """Spielt einen Ton mit einer bestimmten Frequenz und Dauer."""
-    speaker.frequency = frequency
-    speaker.duty_cycle = 49152  # 75% Duty Cycle
-    time.sleep(duration)
-    speaker.duty_cycle = 0  # Ton ausschalten
+    GameController.lautsprecher.frequency = frequenz
+    GameController.lautsprecher.duty_cycle = 49152  # 75% Duty Cycle
+    time.sleep(laenge)
+    GameController.lautsprecher.duty_cycle = 0  # Ton ausschalten
     time.sleep(0.05)  # Kurze Pause zwischen den Tönen
 
-def play_melody():
+
+while True:
     """Spielt eine kleine Melodie."""
     melody = [
         (C4, 0.5),
@@ -33,11 +33,10 @@ def play_melody():
         (G4, 0.5),
         (A4, 0.5),
         (B4, 0.5),
-        (C5, 0.5)
+        (C5, 1)
     ]
     
     for note in melody:
-        play_tone(note[0], note[1])
+        spiele_ton(note[0], note[1])
 
-# Beispielaufruf der Funktion, um die Melodie zu spielen
-play_melody()
+    time.sleep(3)

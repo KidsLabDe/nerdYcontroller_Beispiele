@@ -3,8 +3,7 @@ import board
 import analogio
 import neopixel
 import digitalio
-from nerdy import pixels, num_pixels
-import nerdy
+import GameController
 
 
 
@@ -21,15 +20,23 @@ schalter.pull = digitalio.Pull.UP
 
 def spannung_lesen(pin):
     """Gibt die Spannung des angegebenen Pins zurück."""
-    return (pin.value * nerdy.MAX_SPANNUNG) / 65536
+    return (pin.value * GameController.MAX_SPANNUNG) / 65536
 
 def farbe_berechnen(y_wert):
     """Gibt die Farbe basierend auf der Spannung der Y-Achse zurück."""
     # Interpolieren zwischen Grün (0 Volt) und Rot (3.3 Volt)
-    gruen = int((1 - y_wert / nerdy.MAX_SPANNUNG) * 255)
-    rot = int((y_wert / nerdy.MAX_SPANNUNG) * 255)
+    gruen = int((1 - y_wert / GameController.MAX_SPANNUNG) * 255)
+    rot = int((y_wert / GameController.MAX_SPANNUNG) * 255)
     return (rot, gruen, 0)
 
+
+
+def regenbogen(pause = 0.01):
+    for j in range(255):
+        for i in range(GameController.anzLEDs):
+            pixel_index = (i * 256 // GameController.anzLEDs) + j
+            GameController.LEDs[i] = GameController.wheel(pixel_index & 255)
+        time.sleep(pause)
 
 
 while True:
@@ -41,23 +48,21 @@ while True:
     # Farbe basierend auf der Spannung der Y-Achse berechnen
     farbe = farbe_berechnen(y_wert)
     
+    GameController.setzeAlleAus()  # Alle LEDs ausschalten
+    
     # LEDs basierend auf der Spannung der X-Achse schalten
-    if x_wert < (nerdy.MAX_SPANNUNG / 4) * 1:
-        pixels.fill((0, 0, 0))  # Alle LEDs ausschalten
-        pixels[0] = farbe  # Erste LED einschalten
-    elif x_wert < (nerdy.MAX_SPANNUNG / 4) * 2:
-        pixels.fill((0, 0, 0))  # Alle LEDs ausschalten
-        pixels[1] = farbe  # Zweite LED einschalten
-    elif x_wert < (nerdy.MAX_SPANNUNG / 4) * 3:
-        pixels.fill((0, 0, 0))  # Alle LEDs ausschalten
-        pixels[2] = farbe  # Dritte LED einschalten
+    if x_wert < (GameController.MAX_SPANNUNG / 4) * 1:
+        GameController.setzeLEDFarbe(0,farbe)
+    elif x_wert < (GameController.MAX_SPANNUNG / 4) * 2:
+        GameController.setzeLEDFarbe(1,farbe)
+    elif x_wert < (GameController.MAX_SPANNUNG / 4) * 3:
+        GameController.setzeLEDFarbe(2,farbe)
     else:
-        pixels.fill((0, 0, 0))  # Alle LEDs ausschalten
-        pixels[3] = farbe  # Vierte LED einschalten
+        GameController.setzeLEDFarbe(3,farbe)
     
     if not schalter.value:  # Wenn der Schalter gedrückt wird (LOW)
         print("Schalter gedrückt, rufe rainbow_cycle auf")
-        nerdy.regenbogen()  # Rufen Sie die Funktion rainbow_cycle auf
+        regenbogen()  # Rufen Sie die Funktion rainbow_cycle auf
 
     
     time.sleep(0.1)

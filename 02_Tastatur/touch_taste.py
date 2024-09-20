@@ -61,4 +61,6 @@ while True:
     time.sleep(0.1)
     
     
-    # 
+
+# Cursor hier hier, der Pico tippt gleich los:
+# 

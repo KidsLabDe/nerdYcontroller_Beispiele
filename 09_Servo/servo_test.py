@@ -4,6 +4,7 @@ import pwmio
 from adafruit_motor import servo
 
 # Initialisieren Sie PWM für den Servo-Motor am Pin GP11
+# Achtung - u.u. hast du deinen Servo auch an GP10 angeschlossen?
 pwm = pwmio.PWMOut(board.GP11, duty_cycle=0, frequency=50)
 
 # Initialisieren Sie den Servo-Motor

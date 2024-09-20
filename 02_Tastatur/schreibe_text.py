@@ -14,7 +14,7 @@ def send_text(text):
     keyboard_layout.write(text)
 
 # Beispieltext, der gesendet werden soll
-text_to_send = "Hallo, dies ist ein Testtext!"
+text_to_send = "Das Pferd frisst keinen Gurkensalat!"
 
 # Warten Sie kurz, bevor Sie den Text senden
 time.sleep(2)

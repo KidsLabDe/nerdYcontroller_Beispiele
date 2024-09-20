@@ -10,17 +10,20 @@ import GameController
 # Drücken und loslassen der Tasten W, A, S, D jeweils für 1 Sekunde
 
 # Einfachste Variante - jede Taste nacheinander:
+# Eine Liste des Tasten findest du hier:
+# https://docs.circuitpython.org/projects/hid/en/latest/api.html#adafruit_hid.keycode.Keycode
+
 
 GameController.drueckeTaste(Keycode.H)
 GameController.drueckeTaste(Keycode.A)
 GameController.drueckeTaste(Keycode.L)
 GameController.drueckeTaste(Keycode.L)
 GameController.drueckeTaste(Keycode.O)
-GameController.drueckeTaste(Keycode.spacebar) # Leertaste
+GameController.drueckeTaste(Keycode.SPACE) # Leertaste
 GameController.drueckeTaste(Keycode.W)
 GameController.drueckeTaste(Keycode.E)
 GameController.drueckeTaste(Keycode.L)
-GameController.drueckeTaste(Keycode.T@)
+GameController.drueckeTaste(Keycode.T)
 
 
 time.sleep(5) # 5 Sekunden warten
@@ -32,3 +35,5 @@ for taste in tasten:
     time.sleep(0.5)  # Kurze Pause zwischen den Tastendrücken
 
 
+# Cursor hier hier, der Pico tippt gleich los:
+# 
