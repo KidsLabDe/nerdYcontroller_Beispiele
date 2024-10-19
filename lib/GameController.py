@@ -82,6 +82,14 @@ def wheel(pos):
     pos -= 170
     return (pos * 3, 0, 255 - pos * 3)
 
+def regenbogen(pause = 0.01):
+    for j in range(255):
+        for i in range(anzLEDs):
+            pixel_index = (i * 256 // anzLEDs) + j
+            LEDs[i] = wheel(pixel_index & 255)
+        time.sleep(pause)
+
+
 
 setzeAlleAus()
 
