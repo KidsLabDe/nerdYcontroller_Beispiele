@@ -141,18 +141,23 @@ def ist_bewegung_stark(schwelle=1):
 ## Touch-Steuerung                                        #
 ###########################################################
 
-import touchio
+if board.board_id == "raspberry_pi_pico":
 
-# Die Touch-Pins sind an den Pins GP14 bis 17 angeschlossen.
-# Der Pico braucht da immer einen bestimmten Widerstand, die sind auf der Platine 
+    import touchio
 
-touch_pins = [
-    touchio.TouchIn(board.GP14),
-    touchio.TouchIn(board.GP15),
-    touchio.TouchIn(board.GP16),
-    touchio.TouchIn(board.GP17)
-]
+    # Die Touch-Pins sind an den Pins GP14 bis 17 angeschlossen.
+    # Der Pico braucht da immer einen bestimmten Widerstand, die sind auf der Platine 
 
+    touch_pins = [
+        touchio.TouchIn(board.GP14),
+        touchio.TouchIn(board.GP15),
+        touchio.TouchIn(board.GP16),
+        touchio.TouchIn(board.GP17)
+    ]
+
+else:
+    touch_pins = [] 
+    print("Dieses Board unterstützt keine Touch-Pins")
 
 ## und der kleine Piepsi-Lautsprecher:
 
