@@ -6,6 +6,7 @@ import busio
 import pwmio
 import usb_hid
 
+
 # alles für die Tastatur:
 from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keycode import Keycode
@@ -82,14 +83,6 @@ def wheel(pos):
     pos -= 170
     return (pos * 3, 0, 255 - pos * 3)
 
-def regenbogen(pause = 0.01):
-    for j in range(255):
-        for i in range(anzLEDs):
-            pixel_index = (i * 256 // anzLEDs) + j
-            LEDs[i] = wheel(pixel_index & 255)
-        time.sleep(pause)
-
-
 
 setzeAlleAus()
 
@@ -97,15 +90,25 @@ setzeAlleAus()
 ## Alles für die Tastatur....                            ##
 ###########################################################
 
+
+try:
+    tastatur = Keyboard(usb_hid.devices)
+    
+except:
+    tastatur = 0
 # Initialisieren Sie die Tastatur
-tastatur = Keyboard(usb_hid.devices)
+
+
 
 def drueckeTaste(taste, dauer = 0.2):
-    """Drückt eine Taste für eine bestimmte Dauer und lässt sie dann los."""
-    tastatur.press(taste)
-    time.sleep(dauer)
-    tastatur.release(taste)
+    try:
 
+        """Drückt eine Taste für eine bestimmte Dauer und lässt sie dann los."""
+        tastatur.press(taste)
+        time.sleep(dauer)
+        tastatur.release(taste)
+    except:
+        time.sleep(dauer)
 
 ###########################################################
 ## Neigungssensor                                         #
