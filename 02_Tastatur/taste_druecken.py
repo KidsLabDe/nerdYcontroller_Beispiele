@@ -6,7 +6,6 @@ from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keycode import Keycode
 import GameController
 
-
 # Drücken und loslassen der Tasten W, A, S, D jeweils für 1 Sekunde
 
 # Einfachste Variante - jede Taste nacheinander:
@@ -16,11 +15,10 @@ GameController.drueckeTaste(Keycode.A)
 GameController.drueckeTaste(Keycode.L)
 GameController.drueckeTaste(Keycode.L)
 GameController.drueckeTaste(Keycode.O)
-GameController.drueckeTaste(Keycode.spacebar) # Leertaste
 GameController.drueckeTaste(Keycode.W)
 GameController.drueckeTaste(Keycode.E)
 GameController.drueckeTaste(Keycode.L)
-GameController.drueckeTaste(Keycode.T@)
+GameController.drueckeTaste(Keycode.T)
 
 
 time.sleep(5) # 5 Sekunden warten
