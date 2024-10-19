@@ -3,44 +3,6 @@ import board
 import pwmio
 import touchio
 import GameController
-
-
-
-
-def chase_effect(farbe = GameController.ROT, wartezeit = 0.1):
-    """Erzeugt einen Chase-Effekt auf den Neopixel-LEDs."""
-   
-    for i in range(GameController.num_pixels):
-        GameController.pixels[i] = farbe
-        time.sleep(wartezeit)
-        GameController.pixels[i] = GameController.SCHWARZ  # LED ausschalten
-
-    for i in range(GameController.num_pixels - 1, -1, -1): # wir zählen rückwärts!
-        GameController.pixels[i] = farbe
-        time.sleep(wartezeit)
-        GameController.pixels[i] = GameController.SCHWARZ  # LED ausschalten
-
-def play_tone(frequency, duration):
-    GameController.lautsprecher.frequency = int(frequency)
-    GameController.lautsprecher.duty_cycle = 500  # 50% duty cycle
-    time.sleep(duration)
-    GameController.lautsprecher.duty_cycle = 0  # Turn off the sound
-
-
-#GameController.regenbogen()
-
-
-def check_touch():
-    """Prüft die Touch-Pins und schaltet die LEDs entsprechend ein."""
-    for i, touch_pin in enumerate(touch_pins):
-        if touch_pin.value:
-            GameController.pixels[i] = (0, 255, 0)  # Grün bei Berührung
-        else:
-            GameController.pixels[i] = (0, 0, 0)  # Aus, wenn nicht berührt
-    GameController.pixels.show()
-
-
-
 import adafruit_hcsr04
 
 abstand = adafruit_hcsr04.HCSR04(trigger_pin=board.GP1, echo_pin=board.GP0)
@@ -56,13 +18,13 @@ mein_servo = servo.Servo(pwm)
 
 def play_gameOver():
     
-    play_tone(659,0.3)
+    GameController.spiele_ton(659,0.3)
     time.sleep(0.2)
-    play_tone(659,0.3)
+    GameController.spiele_ton(659,0.3)
     time.sleep(0.2)
-    play_tone(659,0.3)
+    GameController.spiele_ton(659,0.3)
     time.sleep(0.2)
-    play_tone(523,1)
+    GameController.spiele_ton(523,1)
 
 while True:
 
@@ -99,3 +61,4 @@ while True:
     time.sleep(0.1)
     
     
+

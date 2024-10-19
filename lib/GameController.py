@@ -164,3 +164,12 @@ else:
 # Initialisieren Sie den PWM-Ausgang für den Lautsprecher
 lautsprecher = pwmio.PWMOut(board.GP20, duty_cycle=0, frequency=440, variable_frequency=True)
 
+
+def spiele_ton(frequenz, laenge):
+    """Spielt einen Ton mit einer bestimmten Frequenz und Dauer."""
+    lautsprecher.frequency = frequenz
+    lautsprecher.duty_cycle = 49152  # 75% Duty Cycle
+    time.sleep(laenge)
+    lautsprecher.duty_cycle = 0  # Ton ausschalten
+    time.sleep(0.05)  # Kurze Pause zwischen den Tönen
+
