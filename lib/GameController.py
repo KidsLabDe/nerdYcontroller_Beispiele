@@ -84,31 +84,31 @@ def wheel(pos):
     return (pos * 3, 0, 255 - pos * 3)
 
 
+def chase_effect(farbe = ROT, wartezeit = 0.1):
+    """Erzeugt einen Chase-Effekt auf den Neopixel-LEDs."""
+   
+    for i in range(anzLEDs):
+        setzeLEDFarbe(i, farbe)
+        time.sleep(wartezeit)
+        setzeLEDaus(i)  # LED ausschalten
+
+    for i in range(anzLEDs - 1, -1, -1): # wir zählen rückwärts!
+        setzeLEDFarbe(i, farbe)
+        time.sleep(wartezeit)
+        setzeLEDaus(i)  # LED ausschalten
+
+def regenbogen(pause = 0.01):
+    for j in range(255):
+        for i in range(anzLEDs):
+            pixel_index = (i * 256 // anzLEDs) + j
+            LEDs[i] = wheel(pixel_index & 255)
+        time.sleep(pause)
+
+
 setzeAlleAus()
 
-###########################################################
-## Alles für die Tastatur....                            ##
-###########################################################
 
 
-try:
-    tastatur = Keyboard(usb_hid.devices)
-    
-except:
-    tastatur = 0
-# Initialisieren Sie die Tastatur
-
-
-
-def drueckeTaste(taste, dauer = 0.2):
-    try:
-
-        """Drückt eine Taste für eine bestimmte Dauer und lässt sie dann los."""
-        tastatur.press(taste)
-        time.sleep(dauer)
-        tastatur.release(taste)
-    except:
-        time.sleep(dauer)
 
 ###########################################################
 ## Neigungssensor                                         #
@@ -184,3 +184,29 @@ def spiele_ton(frequenz, laenge):
     lautsprecher.duty_cycle = 0  # Ton ausschalten
     time.sleep(0.05)  # Kurze Pause zwischen den Tönen
 
+
+
+###########################################################
+## Alles für die Tastatur....                            ##
+###########################################################
+
+# Initialisieren Sie die Tastatur
+
+if usb_hid.devices:
+    global tastatur
+    # tastatur = Keyboard(usb_hid.devices)
+else:
+    print("No HID devices are present.")
+
+
+
+
+def drueckeTaste(taste, dauer = 0.2):
+    if 'tastatur' not in globals():
+        global tastatur
+        tastatur = Keyboard(usb_hid.devices)
+    """Drückt eine Taste für eine bestimmte Dauer und lässt sie dann los."""
+    tastatur.press(taste)
+    time.sleep(dauer)
+    tastatur.release(taste)
+  
